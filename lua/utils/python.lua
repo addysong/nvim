@@ -12,17 +12,14 @@ local venv_directories = {
 }
 
 function M.get_python_path()
-  local subpath = get_os() == 'win' and 'Scripts/python.exe'
-      or 'bin/python'
+  local subpath = get_os() == 'win' and 'Scripts/python.exe' or 'bin/python'
 
   local cwd = vim.fn.getcwd()
 
   for _, venv_dir in ipairs(venv_directories) do
     local exe_path = cwd .. '/' .. venv_dir .. '/' .. subpath
 
-    if vim.fn.executable(exe_path) == 1 then
-      return exe_path
-    end
+    if vim.fn.executable(exe_path) == 1 then return exe_path end
   end
 
   return default_path
@@ -30,7 +27,7 @@ end
 
 function M.has_pydantic()
   local python = M.get_python_path()
-  vim.fn.system({ python, "-c", "import pydantic" })
+  vim.fn.system({ python, '-c', 'import pydantic' })
   return vim.v.shell_error == 0
 end
 
